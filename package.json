@@ -1,0 +1,29 @@
+{
+  "name": "@farhansyah/html-to-pdf",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A fast and simple htmlString to pdf generator.",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "dev": "tsx watch src/index.ts",
+    "build": "esbuild ./src/index.ts --outdir=dist"
+  },
+  "keywords": [
+    "html to pdf",
+    "pdf"
+  ],
+  "author": "Farhan Syah",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "hyper-express": "^6.7.1",
+    "pino": "^8.14.1",
+    "puppeteer": "^20.7.2",
+    "puppeteer-cluster": "^0.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.3.1",
+    "esbuild": "^0.18.6",
+    "tsx": "^3.12.7"
+  }
+}
