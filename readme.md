@@ -65,3 +65,7 @@ You can configure and build your own image, or run it directly:
 ```sh
 docker run -p 3000:3000 farhansyah/html-to-pdf
 ```
+## License
+
+[MIT license](./LICENSE).
+
