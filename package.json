@@ -19,7 +19,8 @@
     "hyper-express": "^6.7.1",
     "pino": "^8.14.1",
     "puppeteer": "^20.7.2",
-    "puppeteer-cluster": "^0.23.0"
+    "puppeteer-cluster": "^0.23.0",
+    "swagger-jsdoc": "^6.2.8"
   },
   "devDependencies": {
     "@types/node": "^20.3.1",

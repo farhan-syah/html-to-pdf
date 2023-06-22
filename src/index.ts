@@ -3,6 +3,7 @@ import { Server } from "hyper-express";
 import { pino } from "pino";
 import { PDFOptions } from "puppeteer";
 import { Cluster } from "puppeteer-cluster";
+import { swaggerHtml } from "./swagger-ui";
 
 const logger = pino();
 
@@ -123,11 +124,59 @@ async function bootstrap() {
     res.send("Internal Server Error");
   });
 
+  /**
+  * @swagger
+  * /:
+  *   post:
+  *     tags: [PDF Generation]
+  *     summary: Generate PDF from HTML content
+  *     requestBody:
+  *       required: true
+  *       content:
+  *         application/json:
+  *           schema:
+  *             type: object
+  *             properties:
+  *               content:
+  *                 type: string
+  *                 description: HTML content
+  *               options:
+  *                 type: object
+  *                 description: PDF options
+  *                 properties:
+  *                   format:
+  *                     type: string
+  *                     description: Page format (e.g., A4)
+  *                     default: "A4"
+  *                   margin:
+  *                     type: object
+  *                     properties:
+  *                       top:
+  *                         type: number
+  *                         description: Top margin in pixels
+  *                       left:
+  *                         type: number
+  *                         description: Left margin in pixels
+  *     responses:
+  *       200:
+  *         description: Success
+  *         content:
+  *           application/pdf:
+  *             schema:
+  *               type: string
+  *               format: binary
+  */
   app.post("/", async (req, res) => {
     let body = await req.json();
     let buffer = await pdfBuilder.build(body);
     res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", "attachment; filename=generated.pdf"); //for swagger ui only
     res.send(buffer);
+  });
+
+  // Serve Swagger UI when access in web browser
+  app.get("/", (req, res) => {
+    res.send(swaggerHtml);
   });
 
   app.listen(tryParseInt(process.env.PORT) ?? 3000);
