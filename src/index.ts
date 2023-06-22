@@ -3,7 +3,7 @@ import { Server } from "hyper-express";
 import { pino } from "pino";
 import { PDFOptions } from "puppeteer";
 import { Cluster } from "puppeteer-cluster";
-import { swaggerHtml } from "./swagger-ui";
+import { swaggerHtml, yamlData } from "./swagger-ui";
 
 const logger = pino();
 
@@ -126,7 +126,7 @@ async function bootstrap() {
 
   /**
   * @swagger
-  * /:
+  * /pdf/generate:
   *   post:
   *     tags: [PDF Generation]
   *     summary: Generate PDF from HTML content
@@ -166,12 +166,17 @@ async function bootstrap() {
   *               type: string
   *               format: binary
   */
-  app.post("/", async (req, res) => {
+  app.post("/pdf/generate", async (req, res) => {
     let body = await req.json();
     let buffer = await pdfBuilder.build(body);
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", "attachment; filename=generated.pdf"); //for swagger ui only
     res.send(buffer);
+  });
+
+  // Serve swagger yaml spec for Microservice /v3/api-docs only
+  app.get("/v3/api-docs", (req, res) => {
+    res.send(yamlData);
   });
 
   // Serve Swagger UI when access in web browser

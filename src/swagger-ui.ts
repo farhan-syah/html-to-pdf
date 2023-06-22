@@ -1,4 +1,5 @@
 import swaggerJsdoc from "swagger-jsdoc";
+import yaml from 'js-yaml';
 
 // Swagger setup
 const swaggerOptions = {
@@ -13,6 +14,8 @@ const swaggerOptions = {
 };
 
 const specs = swaggerJsdoc(swaggerOptions);
+// Convert JSON to YAML
+export const yamlData = yaml.dump(specs);
 
 // Generate Swagger UI HTML
 export const swaggerHtml = `
